@@ -1,0 +1,16 @@
+{
+    "name": "corey/php-minesweeper",
+    "description": "Quick PHP Minesweeper",
+    "authors": [
+        {
+            "name": "Corey Kress",
+            "email": "coreykre@buffalo.edu"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Minesweeper\\src": "src/"
+        }
+    }
+}

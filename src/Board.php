@@ -2,6 +2,8 @@
 
 namespace Minesweeper\src;
 
+use Minesweeper\Util\Cartesian;
+
 class Board {
     public $height;
 
@@ -56,12 +58,26 @@ class Board {
         return $mineLocations;
     }
 
-    public function generateCluePlacement ($mineLocations) {
-        foreach ($mineLocations as $x) {
-            foreach ($x as $y) {
+    public function possibleAxisLocations ($location, $max, $min = 0) {
+        $surroundingLocations = [$location];
 
+        if ($location - 1 >= $min) {
+            $surroundingLocations[] = ($location - 1);
+        }
+        if ($location + 1 < $max) {
+            $surroundingLocations[] = $location + 1;
+        }
+
+        return $surroundingLocations;
+    }
+
+    public function generateCluePlacement ($mineLocations) {
+        $allLocations = [];
+        foreach ($mineLocations as $x) {
+            $coordinates['x'] = $this->possibleAxisLocations($x, $this->width, 0);
+            $coordinates['y'] = $this->possibleAxisLocations($y, $this->height, 0);
                 //generate surrounding tile locations(x-1, x, x+1) X (y-1, y, y+1)
-                //if in bounds of board, count + 1 or create
+                $allLocations = array_merge($allLocations, Cartesian::build($coordinates));
             }
         }
 

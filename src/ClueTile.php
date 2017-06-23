@@ -25,4 +25,8 @@ class ClueTile extends Tile {
         $this->setCountMinesTouching($this->getCountMinesTouching() + 1);
     }
 
+    public function getDisplayValue()
+    {
+        return $this->getCountMinesTouching();
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace Minesweeper\src;
 
-class Tile {
+abstract class Tile {
     public $activated;
 
     public $displayValue;

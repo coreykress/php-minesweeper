@@ -7,10 +7,13 @@
             "email": "coreykre@buffalo.edu"
         }
     ],
-    "require": {},
+    "require": {
+        "silex/silex": "~2.0",
+        "jms/serializer-bundle": "^2.0"
+    },
     "autoload": {
         "psr-4": {
-            "Minesweeper\\src": "src/"
+            "Minesweeper\\src\\": "src/"
         }
     }
 }

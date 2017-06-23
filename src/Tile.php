@@ -2,16 +2,28 @@
 
 namespace Minesweeper\src;
 
-abstract class Tile {
+use JMS\Serializer\Annotation as Serializer;
+
+
+abstract class Tile{
+    /**
+     * @Serializer\Type("bool")
+     */
     public $activated;
 
+    /**
+     * @Serializer\Type("string")
+     */
     public $displayValue;
 
+    /**
+     * @Serializer\Type("bool")
+     */
     public $hasFlag;
 
     public function __construct()
     {
-        $this->displayValue = null;
+        $this->displayValue = '';
         $this->activated = false;
     }
 

@@ -3,16 +3,30 @@
 namespace Minesweeper\src;
 
 use Minesweeper\Util\Cartesian;
+use JMS\Serializer\Annotation as Serializer;
 
 class Board {
+    /**
+     * @Serializer\Exclude()
+     * @var int
+     */
     public $height;
 
+    /**
+     * @Serializer\Exclude()
+     * @var int
+     */
     public $width;
 
+    /**
+     * @Serializer\Exclude()
+     * @var int
+     */
     public $countMines;
 
-    public $score;
-
+    /**
+     * @Serializer\Type("array<array<Minesweeper\src\Tile>")
+     */
     public $tileGrid;
 
     public function __construct(int $height, int $width, int $countMines)
@@ -114,4 +128,70 @@ class Board {
 
         return $surroundingLocations;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * @param mixed $height
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @param mixed $width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountMines()
+    {
+        return $this->countMines;
+    }
+
+    /**
+     * @param mixed $countMines
+     */
+    public function setCountMines($countMines)
+    {
+        $this->countMines = $countMines;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTileGrid()
+    {
+        return $this->tileGrid;
+    }
+
+    /**
+     * @param mixed $tileGrid
+     */
+    public function setTileGrid($tileGrid)
+    {
+        $this->tileGrid = $tileGrid;
+    }
+
+
 }

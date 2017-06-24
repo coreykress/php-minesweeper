@@ -1,6 +1,6 @@
 <?php
 
-namespace Minesweeper\Util;
+namespace Minesweeper\src\Util;
 
 class Cartesian
 {
@@ -12,9 +12,9 @@ class Cartesian
 
         $subset = array_shift($set);
         $cartesianSubset = self::build($set);
-
         $result = array();
-        foreach ($subset as $value) {
+
+        foreach ($subset as $key => $value) {
             foreach ($cartesianSubset as $p) {
                 array_unshift($p, $value);
                 $result[] = $p;

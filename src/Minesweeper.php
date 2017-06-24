@@ -1,21 +1,20 @@
 <?php
 
-namespace Minesweeper;
+namespace Minesweeper\src;
 
-use Minesweeper\src\Board;
 use JMS\Serializer\Annotation as Serializer;
 
 class Minesweeper {
 
     /**
-     * @Serializer\Type("Minesweeper\src\Board")
-     */
-    public $board;
-
-    /**
      * @Serializer\Type("string")
      */
     public $id;
+
+    /**
+     * @Serializer\Type("Minesweeper\src\Board")
+     */
+    public $board;
 
     public function __construct($height, $width, $mineCount)
     {

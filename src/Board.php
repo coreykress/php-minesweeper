@@ -2,7 +2,7 @@
 
 namespace Minesweeper\src;
 
-use Minesweeper\Util\Cartesian;
+use Minesweeper\src\Util\Cartesian;
 use JMS\Serializer\Annotation as Serializer;
 
 class Board {
@@ -25,7 +25,7 @@ class Board {
     public $countMines;
 
     /**
-     * @Serializer\Type("array<array<Minesweeper\src\Tile>")
+     * @Serializer\Type("array<array<Minesweeper\src\Tile>>")
      */
     public $tileGrid;
 
@@ -62,7 +62,7 @@ class Board {
                 $mineLocations[$x] = [];
             }
 
-            if (!$mineLocations[$x][$y] instanceof Tile) {
+            if (!isset($mineLocations[$x][$y]) || !$mineLocations[$x][$y] instanceof Tile) {
                 $mineLocations[$x][$y] = new Mine();
                 $placedMines++;
             }
@@ -73,26 +73,31 @@ class Board {
 
     public function generateClueTiles($width, $height, $mineLocations)
     {
-        $allLocations = clone $mineLocations;
-        foreach ($mineLocations as $x) {
-            $coordinates['x'] = $this->possibleAxisLocations($x, $width, 0);
-            foreach ($x as $y) {
-                $coordinates['y'] = $this->possibleAxisLocations($y, $height, 0);
+        $allLocations = $mineLocations;
+        foreach ($mineLocations as $key => $x) {
+            $coordinates['x'] = $this->possibleAxisLocations($key, $width, 0);
+            foreach ($x as $yKey => $y) {
+                $coordinates['y'] = $this->possibleAxisLocations($yKey, $height, 0);
             }
             //generate surrounding tile locations(x-1, x, x+1) X (y-1, y, y+1)
+//            var_dump($coordinates);die;
             $cartCoordinates = Cartesian::build($coordinates);
             foreach ($cartCoordinates as $xyPair) {
-                if (!isset($allLocations[$xyPair['x']])) {
-                    $allLocations[$xyPair['x']] = [];
+                if (sizeof($xyPair) !== 2) {
+                    continue;
                 }
-                if ($allLocations[$xyPair['x']][$xyPair['y']] instanceof ClueTile) {
+                //0 = x coord, 1 = y coord, current cartesian drops key
+                if (!isset($allLocations[$xyPair[0]])) {
+                    $allLocations[$xyPair[0]] = [];
+                }
+                if (isset($allLocations[$xyPair[0]][$xyPair[1]]) && $allLocations[$xyPair[0]][$xyPair[1]] instanceof ClueTile) {
                     /** @var ClueTile $clueTile */
-                    $clueTile = $allLocations[$xyPair['x']][$xyPair['y']];
+                    $clueTile = $allLocations[$xyPair[0]][$xyPair[1]];
                     $clueTile->addMineTouching();
-                } else if ($allLocations[$xyPair['x']][$xyPair['y']] instanceof Mine) {
+                } else if (isset($allLocations[$xyPair[0]][$xyPair[1]]) && $allLocations[$xyPair[0]][$xyPair[1]] instanceof Mine) {
                     continue;
                 } else {
-                    $allLocations[$xyPair['x']][$xyPair['y']] = new ClueTile();
+                    $allLocations[$xyPair[0]][$xyPair[1]] = new ClueTile();
                 }
             }
         }
@@ -102,11 +107,11 @@ class Board {
 
     public function generateBlankTiles($width, $height, $mineAndClueLocations)
     {
-        $grid = clone $mineAndClueLocations;
+        $grid = $mineAndClueLocations;
 
         for ($i = 0; $i < $width; $i++) {
             for ($j = 0; $j < $height; $j++) {
-                if($grid[$i][$j] instanceof Tile) {
+                if(isset($grid[$i][$j]) && $grid[$i][$j] instanceof Tile) {
                     continue;
                 }
                 $grid[$i][$j] = new BlankTile();
@@ -119,10 +124,10 @@ class Board {
     public function possibleAxisLocations ($location, $max, $min = 0) {
         $surroundingLocations = [$location];
 
-        if ($location - 1 >= $min) {
+        if (($location - 1) >= $min) {
             $surroundingLocations[] = ($location - 1);
         }
-        if ($location + 1 < $max) {
+        if (($location + 1) < $max) {
             $surroundingLocations[] = $location + 1;
         }
 

@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 abstract class Tile{
     /**
-     * @Serializer\Type("bool")
+     * @Serializer\Type("boolean")
      */
     public $activated;
 
@@ -17,7 +17,7 @@ abstract class Tile{
     public $displayValue;
 
     /**
-     * @Serializer\Type("bool")
+     * @Serializer\Type("boolean")
      */
     public $hasFlag;
 

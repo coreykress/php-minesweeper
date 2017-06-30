@@ -10,7 +10,10 @@ Doctrine\Common\Annotations\AnnotationRegistry::registerAutoloadNamespace(
     'JMS\Serializer\Annotation',
     __DIR__ . "/vendor/jms/serializer/src");
 
+
+$userList = [];
 $gameInstances = [];
+
 $game = new src\Minesweeper(10, 10, 5);
 
 $serializer = JMS\Serializer\SerializerBuilder::create()->build();
